@@ -1,0 +1,171 @@
+:root {
+  /* hsl color codes */
+  --clr-neutral-100: 0, 0%, 100%;
+  --clr-neutral-400: 0, 0%, 59%;
+  --clr-neutral-700: 0, 0%, 17%;
+
+  --ff-primary: 'Rubik', sans-serif;
+
+  --fw-regular: 400;
+  --fw-medium: 500;
+  --fw-bold: 700;
+
+  --fs-200: 0.625rem;
+  --fs-400: 0.8275rem;
+  --fs-600: 1.15rem;
+  --fs-900: 1.65rem;
+}
+
+/* basic css reset */
+html,
+body {
+  height: 100%;
+}
+
+*,
+*::before,
+*::after {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: var(--ff-primary);
+  font-size: var(--fs-400);
+  font-weight: var(--fw-regular);
+  color: hsl(var(--clr-neutral-700));
+}
+
+.app {
+  --header-min-height: 18.5rem;
+  --header-bg-img: url('images/pattern-bg-mobile.png');
+  --header-side-padding: 1.5em;
+  --common-brdr-radius: 0.625rem;
+  --user-info-flex-direc: column;
+}
+
+.app__header {
+  min-height: var(--header-min-height);
+  text-align: center;
+  background-image: var(--header-bg-img);
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
+  padding: 1.5em var(--header-side-padding);
+  position: relative;
+}
+
+.app__title {
+  font-size: var(--fs-900);
+  font-weight: var(--fw-bold);
+  color: hsl(var(--clr-neutral-100));
+  margin-bottom: 1.75rem;
+}
+
+.app__form {
+  --btn-width: 4em;
+}
+
+.app__form_field-group {
+  border-radius: var(--common-brdr-radius);
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  box-shadow: 0 10px 10px hsla(var(--clr-neutral-700), 0.15);
+}
+
+.app__form input {
+  --padding-right: calc(var(--btn-width) + 0.5em);
+  font-size: var(--fs-600);
+  color: hsl(var(--clr-neutral-700));
+  display: block;
+  width: 100%;
+  min-height: 3.5rem;
+  padding: 0 var(--padding-right) 0 1.25em;
+  border: none;
+}
+
+.app__form input::placeholder {
+  font-size: var(--fs-400);
+  color: hsl(var(--clr-neutral-400));
+}
+
+.app__form input:hover {
+  cursor: pointer;
+}
+
+.app__form input:focus {
+  border: none;
+  outline: none;
+}
+
+.app__form_btn {
+  width: var(--btn-width);
+  height: 100%;
+  background-color: hsl(var(--clr-neutral-700));
+  border: none;
+  position: absolute;
+  top: 0;
+  right: 0;
+  z-index: 1;
+  background-image: url('images/icon-arrow.svg');
+  background-repeat: no-repeat;
+  background-position: center;
+  transition: background-position 400ms ease-out;
+}
+
+.app__form_btn:hover {
+  cursor: pointer;
+  background-color: hsl(var(--clr-neutral-700), 0.85);
+}
+
+.app__form_btn:focus-visble {
+  outline: 1px dotted hsl(var(--clr-neutral-400));
+  outline-offset: -0.35em;
+}
+
+.app__form_btn:active {
+  background-position: right;
+}
+
+.app__user-info {
+  background-color: hsl(var(--clr-neutral-100));
+  border-radius: var(--common-brdr-radius);
+  width: calc(100% - var(--header-side-padding) * 2);
+  padding: 2em;
+  position: absolute;
+  transform: translateY(1.5rem);
+  box-shadow: 0 30px 50px -30px hsla(var(--clr-neutral-700), 0.15);
+  /* for inner contents */
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: var(--user-info-flex-direc);
+  gap: 2em;
+}
+
+.app__user-info_component h3 {
+  font-size: var(--fs-200);
+  font-weight: var(--fw-bold);
+  text-transform: uppercase;
+  letter-spacing: 0.2em;
+  color: hsl(var(--clr-neutral-400));
+  margin-bottom: 1em;
+}
+
+.app__user-info_component p {
+  font-size: var(--fs-600);
+  font-weight: var(--fw-bold);
+}
+
+/* Hiding class, making content visible only to screen readers but not visually */
+/* "sr" meaning "screen-reader" */
+.sr-only:not(:focus):not(:active) {
+  clip: rect(0 0 0 0);
+  clip-path: inset(50%);
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  position: absolute;
+  white-space: nowrap;
+}
