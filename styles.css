@@ -12,8 +12,17 @@
 
   --fs-200: 0.625rem;
   --fs-400: 0.8275rem;
+  --fs-500: 1.125rem;
   --fs-600: 1.15rem;
-  --fs-900: 1.65rem;
+  --fs-900: 1.5rem;
+}
+
+@media (min-width: 37.5em) {
+:root {
+  --fs-400: 1rem;
+  --fs-600: 1.35rem;
+  --fs-900: 2.25rem;
+}
 }
 
 /* basic css reset */
@@ -28,6 +37,7 @@ body {
   padding: 0;
   margin: 0;
   box-sizing: border-box;
+  font: inherit;
 }
 
 body {
@@ -41,8 +51,38 @@ body {
   --header-min-height: 18.5rem;
   --header-bg-img: url('images/pattern-bg-mobile.png');
   --header-side-padding: 1.5em;
+
+  --user-info-flex-wrap: wrap;
+  --user-info-margin-top: 1.5rem;
+
+  --user-info-component-text-align: center;
+  --user-info-component-flex-shrink: 0;
+  --user-info-component-flex-grow: 1;
+
   --common-brdr-radius: 0.625rem;
-  --user-info-flex-direc: column;
+}
+
+@media (min-width: 37.5em) {
+  .app {
+    --header-min-height: 17.75rem;
+    --header-bg-img: url('images/pattern-bg-desktop.png');
+
+    --user-info-margin-top: 3rem;
+  }
+}
+
+@media (min-width: 64em) {
+  .app {
+    --user-info-flex-wrap: no-wrap;
+
+    --user-info-component-text-align: left;
+    --user-info-component-flex-shrink: 1;
+    --user-info-component-flex-grow: 1;
+    --user-info-component-flex-basis: 100%;
+    --user-info-component-border-left: 0.5px solid hsl(var(--clr-neutral-400));
+
+    --common-brdr-radius: 1rem;
+  }
 }
 
 .app__header {
@@ -52,19 +92,21 @@ body {
   background-repeat: no-repeat;
   background-position: center;
   background-size: cover;
-  padding: 1.5em var(--header-side-padding);
+  padding: 2.25em var(--header-side-padding);
   position: relative;
 }
 
 .app__title {
   font-size: var(--fs-900);
-  font-weight: var(--fw-bold);
+  font-weight: var(--fw-medium);
   color: hsl(var(--clr-neutral-100));
   margin-bottom: 1.75rem;
 }
 
 .app__form {
   --btn-width: 4em;
+  width: min(100%, 35rem);
+  margin: 0 auto;
 }
 
 .app__form_field-group {
@@ -77,13 +119,14 @@ body {
 
 .app__form input {
   --padding-right: calc(var(--btn-width) + 0.5em);
-  font-size: var(--fs-600);
+  font-size: var(--fs-500);
   color: hsl(var(--clr-neutral-700));
   display: block;
   width: 100%;
   min-height: 3.5rem;
   padding: 0 var(--padding-right) 0 1.25em;
   border: none;
+  outline: none;
 }
 
 .app__form input::placeholder {
@@ -132,16 +175,28 @@ body {
 .app__user-info {
   background-color: hsl(var(--clr-neutral-100));
   border-radius: var(--common-brdr-radius);
-  width: calc(100% - var(--header-side-padding) * 2);
-  padding: 2em;
+  width: min(calc(100% - var(--header-side-padding) * 2), 70.25rem);
+  padding: 2em 0;
   position: absolute;
-  transform: translateY(1.5rem);
+  left: 50%;
+  transform: translate(-50%, var(--user-info-margin-top));
   box-shadow: 0 30px 50px -30px hsla(var(--clr-neutral-700), 0.15);
   /* for inner contents */
   display: flex;
-  flex-wrap: wrap;
-  flex-direction: var(--user-info-flex-direc);
+  flex-wrap: var(--user-info-flex-wrap);
+  justify-content: space-between;
+  align-items: flex-start;
+  flex-direction: row;
   gap: 2em;
+}
+
+.app__user-info_component {
+  padding: 0 2.25em;
+  flex-shrink: var(--user-info-component-flex-shrink);
+  flex-grow: var(--user-info-component-flex-grow);
+  flex-basis: var(--user-info-component-flex-basis);
+  text-align: var(--user-info-component-text-align);
+  border-left: var(--user-info-component-border-left);
 }
 
 .app__user-info_component h3 {
