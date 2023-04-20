@@ -12,8 +12,8 @@
 
     --fs-200: 0.625rem;
     --fs-400: 0.8275rem;
-    --fs-500: 1.125rem;
-    --fs-600: 1.15rem;
+    --fs-500: 1.1rem;
+    --fs-600: 1.2rem;
     --fs-900: 1.5rem;
 }
 
@@ -205,15 +205,16 @@ body {
     font-size: var(--fs-200);
     font-weight: var(--fw-bold);
     text-transform: uppercase;
-    letter-spacing: 0.2em;
+    letter-spacing: 0.1em;
     color: hsl(var(--clr-neutral-400));
     margin-bottom: 1em;
 }
 
 .app__user-info_component p {
     font-size: var(--fs-600);
-    font-weight: var(--fw-bold);
-    line-height: 1.5;
+    font-weight: var(--fw-medium);
+    letter-spacing: -0.05em;
+    word-spacing: 0.175em;
 }
 
 /* Hiding class, making content visible only to screen readers but not visually */
