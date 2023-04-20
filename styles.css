@@ -56,7 +56,7 @@ body {
     --user-info-margin-top: 1.5rem;
 
     --user-info-component-text-align: center;
-    --user-info-component-flex-shrink: 0;
+    --user-info-component-flex-shrink: 1;
     --user-info-component-flex-grow: 1;
 
     --common-brdr-radius: 0.625rem;
@@ -213,6 +213,7 @@ body {
 .app__user-info_component p {
     font-size: var(--fs-600);
     font-weight: var(--fw-bold);
+    line-height: 1.5;
 }
 
 /* Hiding class, making content visible only to screen readers but not visually */
