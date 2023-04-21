@@ -6,8 +6,6 @@
 // get user typed ip
 // use user typed ip to fetch and display updated data on click
 
-const getUserTypedIp = () => { };
-
 const getUserIp = async () => {
     const response = await fetch('https://api.ipify.org?format=json');
     const data = await response.json();
@@ -22,14 +20,11 @@ const getIpGeoData = async (ip) => {
     return data;
 };
 
-const displayIpGeoData = async (ip) => {
+const displayIpData = (data) => {
     const displayIpAddress = document.querySelector('#user-ip-address');
     const displayLocation = document.querySelector('#user-location');
     const displayTimeZone = document.querySelector('#user-time-zone');
     const displayISP = document.querySelector('#user-isp');
-    // get ip data
-    const data = await getIpGeoData(ip);
-    console.log(data);
     // display data
     displayIpAddress.textContent = data.ip;
     displayLocation.textContent = `${data.location.region}, ${data.location.city} ${data.location.postalCode}`;
@@ -37,5 +32,32 @@ const displayIpGeoData = async (ip) => {
     displayISP.textContent = data.isp;
 };
 
-// display ip info on page load
-displayIpGeoData(getUserIp());
+const displayIpMap = (data) => {
+    const lat = data.location.lat;
+    const lng = data.location.lng;
+    const defaultZoom = 15;
+    // map scripts from leaflet js
+    let map = L.map('map').setView([lat, lng], defaultZoom);
+    L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        maxZoom: 25,
+        attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
+    }).addTo(map);
+    let marker = L.marker([lat, lng]).addTo(map);
+};
+
+const displayDataAndMap = async (ip) => {
+    const data = await getIpGeoData(ip);
+    //console.log(data);
+    displayIpData(data);
+    displayIpMap(data);
+};
+
+// display user ip info and map location on page load
+displayDataAndMap(getUserIp());
+// display user typed info and map location on click
+const ipForm = document.querySelector('#form-ip');
+ipForm.addEventListener('submit', (e) => {
+    const userTypedIp = ipForm.querySelector('#f-ip').value;
+    e.preventDefault();
+    displayDataAndMap(userTypedIp);
+});
