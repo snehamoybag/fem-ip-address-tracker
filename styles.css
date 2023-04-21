@@ -60,6 +60,8 @@ body {
     --user-info-component-flex-grow: 1;
 
     --common-brdr-radius: 0.625rem;
+
+    --map-height: 40rem;
 }
 
 /* tablet screen */
@@ -182,6 +184,7 @@ body {
     position: absolute;
     left: 50%;
     transform: translate(-50%, var(--user-info-margin-top));
+    z-index: 1;
     box-shadow: 0 30px 50px -30px hsla(var(--clr-neutral-700), 0.15);
     /* for inner contents */
     display: flex;
@@ -215,6 +218,15 @@ body {
     font-weight: var(--fw-medium);
     letter-spacing: -0.05em;
     word-spacing: 0.175em;
+}
+
+.app__body {
+    position: relative;
+    isolation: isolate;
+}
+
+.map {
+    height: var(--map-height);
 }
 
 /* Hiding class, making content visible only to screen readers but not visually */
