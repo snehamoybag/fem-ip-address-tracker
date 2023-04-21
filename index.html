@@ -7,16 +7,24 @@
     <!-- displays site properly based on user's device -->
     <meta name="author" content="Snehamoy Bag">
     <link rel="icon" type="image/png" sizes="32x32" href="./images/favicon-32x32.png">
-    
+
     <title>Frontend Mentor | IP Address Tracker</title>
-    <!-- stylesheet -->
+    <!-- app stylesheet -->
     <link rel="stylesheet" href="styles.css">
-    <!-- javascript -->
-    <script src="app.js" defer></script>
+    <!-- leaflet js map stylesheet -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.3/dist/leaflet.css"
+    integrity="sha256-kLaT2GOSpHechhsozzB+flnD+zUyjE2LlfWPgU04xyI="
+    crossorigin="">
     <!-- fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Rubik:wght@400;500;700&display=swap" rel="stylesheet">
+    <!-- app javascript -->
+    <script src="app.js" defer></script>
+    <!-- leaflet js map javascript -->
+    <script src="https://unpkg.com/leaflet@1.9.3/dist/leaflet.js"
+        integrity="sha256-WBkoXOwTeyKclOHuWtc+i2uENFpDZ9YPdf5Hf+D7ewM="
+        crossorigin=""></script>
 </head>
 
 <body>
@@ -27,10 +35,10 @@
                 <h1 class="app__title">IP Address Tracker</h1>
                 <form id="form-ip" class="app__form" action="" method="GET">
                     <div class="app__form_field-group">
-                        <label for="f-domain">
+                        <label for="f-ip">
                             <span class="sr-only">Search for any IP address or domain</span>
-                            <input id="f-domain" class="app__form_input" type="text"
-                                placeholder="Search for any IP address or domain">
+                            <input id="f-ip" class="app__form_input" type="text"
+                            placeholder="Search for any IP address or domain">
                         </label>
                         <button class="app__form_btn" type="submit">
                             <span class="sr-only">Submit</span>
@@ -48,7 +56,7 @@
                     </div>
                     <div class="app__user-info_component">
                         <h3>Timezone</h3>
-                        <p id ="user-time-zone"></p>
+                        <p id="user-time-zone"></p>
                     </div>
                     <div class="app__user-info_component">
                         <h3>ISP</h3>
@@ -56,7 +64,9 @@
                     </div>
                 </div>
             </div>
-            <div class="app__body"></div>
+            <div class="app__body">
+                <div id="map" class="map"></div>
+            </div>
         </div>
     </main>
     <footer>
