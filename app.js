@@ -32,14 +32,17 @@ const displayIpData = (data) => {
     displayISP.textContent = data.isp;
 };
 
+// initialize leafletjs map container on page load (add DOM element of map)
+let map = L.map('map');
+
 const displayIpMap = (data) => {
     const lat = data.location.lat;
     const lng = data.location.lng;
-    const defaultZoom = 15;
-    // map scripts from leaflet js
-    let map = L.map('map').setView([lat, lng], defaultZoom);
+    const defaultZoom = 13;
+    // update the cordinates of the map
+    map.setView([lat, lng], defaultZoom);
     L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
-        maxZoom: 25,
+        maxZoom: 20,
         attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
     }).addTo(map);
     let marker = L.marker([lat, lng]).addTo(map);
