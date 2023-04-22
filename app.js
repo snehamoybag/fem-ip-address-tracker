@@ -38,7 +38,7 @@ let map = L.map('map');
 const displayIpMap = (data) => {
     const lat = data.location.lat;
     const lng = data.location.lng;
-    const defaultZoom = 13;
+    const defaultZoom = 15;
     // update the cordinates of the map
     map.setView([lat, lng], defaultZoom);
     L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
@@ -48,9 +48,16 @@ const displayIpMap = (data) => {
     let marker = L.marker([lat, lng]).addTo(map);
 };
 
+// show and hide loading animation
+const runPageLoading = (data) => {
+    const loadingEl = document.querySelector('#loading');
+    (data) ? loadingEl.classList.add('hide'): loadingEl.classList.remove('hide');
+}
+
 const displayDataAndMap = async (ip) => {
     const data = await getIpGeoData(ip);
     //console.log(data);
+    runPageLoading(data);
     displayIpData(data);
     displayIpMap(data);
 };
