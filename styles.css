@@ -159,10 +159,20 @@ body {
     top: 0;
     right: 0;
     z-index: 1;
-    background-image: url('images/icon-arrow.svg');
-    background-repeat: no-repeat;
-    background-position: center;
-    transition: background-position 400ms ease-out;
+    /* for inner contents */
+    display: grid;
+    grid-template-areas: 1fr/1fr;
+    justify-items: center;
+    align-items: center;
+}
+
+.app__form_btn > img {
+    transition: opacity 200ms ease-in;
+    grid-area: 1/1
+}
+
+.app__form_btn > .pre-loader--content {
+    grid-area: 1/1;
 }
 
 .app__form_btn:hover {
@@ -175,8 +185,8 @@ body {
     outline-offset: -0.35em;
 }
 
-.app__form_btn:active {
-    background-position: right;
+.app__form_btn:active > img {
+    opacity: 0;
 }
 
 .app__user-info {
@@ -232,20 +242,8 @@ body {
     height: var(--map-height);
 }
 
-/* Hiding class, making content visible only to screen readers but not visually */
-/* "sr" meaning "screen-reader" */
-.sr-only:not(:focus):not(:active) {
-    clip: rect(0 0 0 0);
-    clip-path: inset(50%);
-    width: 1px;
-    height: 1px;
-    overflow: hidden;
-    position: absolute;
-    white-space: nowrap;
-}
-
 /* Loading animation */
-.loading {
+.pre-loader--page {
     width: 100%;
     height: 100%;
     position: fixed;
@@ -259,13 +257,22 @@ body {
     align-items: center;
 }
 
-.loading::before {
+.pre-loader--page::before {
     content: '';
     display: block;
     width: 25%;
     aspect-ratio: 1/1;
     border: 8px solid hsl(var(--clr-neutral-200));
     border-right-color: hsl(var(--clr-primary-400));
+    border-radius: 50%;
+    animation: spin 1000ms ease-in-out infinite;
+}
+
+.pre-loader--content {
+    width: 1.5em;
+    aspect-ratio: 1/1;
+    border: 5px solid hsl(var(--clr-neutral-200));
+    border-right-color: hsl(var(--clr-neutral-400));
     border-radius: 50%;
     animation: spin 1000ms ease-in-out infinite;
 }
@@ -278,4 +285,16 @@ body {
 
 .hide {
     display: none;
+}
+
+/* Hiding class, making content visible only to screen readers but not visually */
+/* "sr" meaning "screen-reader" */
+.sr-only:not(:focus):not(:active) {
+    clip: rect(0 0 0 0);
+    clip-path: inset(50%);
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    position: absolute;
+    white-space: nowrap;
 }
