@@ -1,18 +1,19 @@
 'use strict';
 
-// APP LOGIC //
-// get user ip
-// use user ip to fetch and display data on page load
-// get user typed ip
-// use user typed ip to fetch and display updated data on click
+let currentIp = '';
 
 const getUserIp = async () => {
     const response = await fetch('https://api.ipify.org?format=json');
     const data = await response.json();
+    currentIp = data.ip;
     return data.ip;
 };
 
 const getIpGeoData = async (ip) => {
+    // only fetch if the ip is new and not empty
+    if (!ip || ip === currentIp) return;
+    // if the ip is new, set it as current ip for next round
+    currentIp = ip;
     const resolvedIp = await ip;
     const url = `https://geo.ipify.org/api/v2/country,city?apiKey=at_Kc5uBj4UW4W2O8VW74w4z2mCytjRC&ipAddress=${resolvedIp}`;
     const response = await fetch(url);
@@ -48,18 +49,14 @@ const displayIpMap = (data) => {
     let marker = L.marker([lat, lng]).addTo(map);
 };
 
-// show and hide loading animation
-const runPageLoading = (data) => {
-    const loadingEl = document.querySelector('#loading');
-    (data) ? loadingEl.classList.add('hide'): loadingEl.classList.remove('hide');
-}
-
 const displayDataAndMap = async (ip) => {
     const data = await getIpGeoData(ip);
-    //console.log(data);
-    runPageLoading(data);
+    //only run the rest if data is not falsy
+    if (!data) return;
     displayIpData(data);
     displayIpMap(data);
+    // remove page loading animation
+    document.querySelector('#page-pre-loader').classList.add('hide');
 };
 
 // display user ip info and map location on page load
@@ -67,7 +64,7 @@ displayDataAndMap(getUserIp());
 // display user typed info and map location on click
 const ipForm = document.querySelector('#form-ip');
 ipForm.addEventListener('submit', (e) => {
-    const userTypedIp = ipForm.querySelector('#f-ip').value;
     e.preventDefault();
+    const userTypedIp = ipForm.querySelector('#f-ip').value;
     displayDataAndMap(userTypedIp);
 });
