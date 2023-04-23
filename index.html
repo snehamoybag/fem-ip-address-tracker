@@ -28,7 +28,7 @@
 </head>
 
 <body>
-    <div id="loading" class="loading"></div>
+    <div id="page-pre-loader" class="pre-loader--page"></div>
     <header></header>
     <main>
         <div class="app">
@@ -42,6 +42,8 @@
                             placeholder="Search for any IP address or domain">
                         </label>
                         <button class="app__form_btn" type="submit">
+                            <div class="pre-loader--content"></div>
+                            <img src="images/icon-arrow.svg" alt="" aria-hidden="true">
                             <span class="sr-only">Submit</span>
                         </button>
                     </div>
