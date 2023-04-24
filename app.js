@@ -10,9 +10,19 @@ function HideAndShowElmentConstructor(el) {
     }
 };
 
+const pageLoadingSpinner = new HideAndShowElmentConstructor('#page-pre-loader');
 const contentLoadingSpinner = new HideAndShowElmentConstructor('.pre-loader--content');
 const formButtonIcon = new HideAndShowElmentConstructor('.app__form_btn img');
 
+const enableContentLoadingSpinner = () => {
+    formButtonIcon.hide();
+    contentLoadingSpinner.show();
+};
+
+const disableContentLoadingSpinner = () => {
+    contentLoadingSpinner.hide();
+    formButtonIcon.show();
+};
 
 let currentIp = '';
 
@@ -40,9 +50,7 @@ const getIpGeoData = async (ip) => {
     // if the ip is new, set it as current ip for next round
     currentIp = ip;
     try {
-        // add loading spinner
-        formButtonIcon.hide();
-        contentLoadingSpinner.show();
+        enableContentLoadingSpinner();
         const resolvedIp = await ip;
         const url = `https://geo.ipify.org/api/v2/country,city?apiKey=at_Kc5uBj4UW4W2O8VW74w4z2mCytjRC&ipAddress=${resolvedIp}`;
         const response = await fetch(url);
@@ -50,15 +58,11 @@ const getIpGeoData = async (ip) => {
         if (!response.ok || response.status !== 200) {
             if (response.status === 422) {
                 alert('Please type a valid IPv4 or IPv6 address.');
-                // remove loading spinner
-                contentLoadingSpinner.hide();
-                formButtonIcon.show();
+                disableContentLoadingSpinner();
                 return;
             }
             alert('Unable to get IP address data. Try again later.')
-            // remove loading spinner
-            contentLoadingSpinner.hide();
-            formButtonIcon.show();
+            disableContentLoadingSpinner();
             return;
         }
         // run if no error has occured
@@ -66,9 +70,7 @@ const getIpGeoData = async (ip) => {
         return data;
     } catch (error) {
         alert(error.messages);
-        // remove loading spinner
-        contentLoadingSpinner.hide();
-        formButtonIcon.show();
+        disableContentLoadingSpinner();
     }
 };
 
@@ -101,9 +103,7 @@ const displayIpMap = (data) => {
         let marker = L.marker([lat, lng]).addTo(map);
     } catch (error) {
         alert(error.messages);
-        // remove loading spinner
-        contentLoadingSpinner.hide();
-        formButtonIcon.show();
+        disableContentLoadingSpinner();
     }
 };
 
@@ -113,11 +113,8 @@ const displayDataAndMap = async (ip) => {
     if (!data) return;
     displayIpData(data);
     displayIpMap(data);
-    // remove page loading animation
-    document.querySelector('#page-pre-loader').classList.add('hide');
-    // remove loading spinner
-    contentLoadingSpinner.hide();
-    formButtonIcon.show();
+    pageLoadingSpinner.hide();
+    disableContentLoadingSpinner();
 };
 
 // display user ip info and map location on page load
