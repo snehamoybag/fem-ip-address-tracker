@@ -24,7 +24,7 @@ const disableContentLoadingSpinner = () => {
     formButtonIcon.show();
 };
 
-let currentIp = '';
+let currentQuery = '';
 
 const getUserIp = async () => {
     try {
@@ -32,36 +32,49 @@ const getUserIp = async () => {
         // check for errors
         if (!response.ok || response.status !== 200) {
             alert('Unable to fetch Ip Address. Try again later.')
+            pageLoadingSpinner.hide();
             return;
         }
         // run if no error has occured
         const data = await response.json();
-        currentIp = data.ip;
+        currentQuery = data.ip;
         return data.ip;
     }
     catch (error) {
-        alert(error.messages);
+        alert('Unable to connect to the server. Please check your internet connection');
+        pageLoadingSpinner.hide();
     }
 };
 
-const getIpGeoData = async (ip) => {
-    // only fetch if the ip is new and not empty
-    if (!ip || ip === currentIp) return;
-    // if the ip is new, set it as current ip for next round
-    currentIp = ip;
+// check if the user typed query is a domain or an ip
+const getQueryType = (query) => {
+    const regexDomain = /^(?=.{1,255}$)([a-zA-Z0-9_-]+\.)+[a-zA-Z]{2,}$/;
+    const isDomain = regexDomain.test(query);
+    const queryType = (isDomain) ? 'domain': 'ipAddress';
+    return queryType;
+};
+
+const getIpGeoData = async (query) => {
+    // only fetch if the ip or domain is new and not empty
+    if (!query || query === currentQuery) return;
+    // if the ip or domain is new, set it as current ip or domain for next round
+    currentQuery = query;
+    enableContentLoadingSpinner();
+    const resolvedQuery = await query;
+    const apiServer = 'https://geo.ipify.org/api/v2/country,city';
+    const apiKey = 'at_Kc5uBj4UW4W2O8VW74w4z2mCytjRC';
+    let queryType = getQueryType(resolvedQuery);
+    const url = `${apiServer}?apiKey=${apiKey}&${queryType}=${resolvedQuery}`;
     try {
-        enableContentLoadingSpinner();
-        const resolvedIp = await ip;
-        const url = `https://geo.ipify.org/api/v2/country,city?apiKey=at_Kc5uBj4UW4W2O8VW74w4z2mCytjRC&ipAddress=${resolvedIp}`;
         const response = await fetch(url);
         // check for errors
         if (!response.ok || response.status !== 200) {
-            if (response.status === 422) {
-                alert('Please type a valid IPv4 or IPv6 address.');
+            if (response.status >= 400) {
+                alert('Please enter a valid domain or an IPv4/IPv6 address.');
                 disableContentLoadingSpinner();
                 return;
             }
-            alert('Unable to get IP address data. Try again later.')
+            alert('Unable to get data. Try again later.')
             disableContentLoadingSpinner();
             return;
         }
@@ -69,7 +82,7 @@ const getIpGeoData = async (ip) => {
         const data = await response.json();
         return data;
     } catch (error) {
-        alert(error.messages);
+        alert('Unable to connect to the server. Please check your internet connection.');
         disableContentLoadingSpinner();
     }
 };
@@ -102,17 +115,18 @@ const displayIpMap = (data) => {
         }).addTo(map);
         let marker = L.marker([lat, lng]).addTo(map);
     } catch (error) {
-        alert(error.messages);
+        alert(error);
         disableContentLoadingSpinner();
     }
 };
 
-const displayDataAndMap = async (ip) => {
-    const data = await getIpGeoData(ip);
+const displayDataAndMap = async (query) => {
+    const data = await getIpGeoData(query);
     //only run the rest if data is not falsy
     if (!data) return;
     displayIpData(data);
     displayIpMap(data);
+    // disable on sucessful fetchings
     pageLoadingSpinner.hide();
     disableContentLoadingSpinner();
 };
@@ -124,6 +138,6 @@ const ipForm = document.querySelector('#form-ip');
 ipForm.addEventListener('submit', (e) => {
     e.preventDefault();
     // get input value and remove the white spaces
-    const userTypedIp = ipForm.querySelector('#f-ip').value.replace(/\s+/g, '');
-    displayDataAndMap(userTypedIp);
+    const userTypedQuery = ipForm.querySelector('#f-ip').value.replace(/\s+/g, '');
+    displayDataAndMap(userTypedQuery);
 });
