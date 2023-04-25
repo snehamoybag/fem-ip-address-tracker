@@ -22,9 +22,16 @@
 
 @media (min-width: 37.5em) {
 :root {
+    --fs-200: 0.8275rem;
     --fs-400: 1rem;
     --fs-600: 1.35rem;
     --fs-900: 2.25rem;
+}
+}
+
+@media (min-width: 64em) {
+:root {
+    --fs-600: 1.75rem;
 }
 }
 
@@ -64,7 +71,7 @@ body {
 
     --common-brdr-radius: 0.625rem;
 
-    --map-height: 40rem;
+    --map-height: 100vh;
 }
 
 /* tablet screen */
@@ -83,8 +90,6 @@ body {
         --user-info-flex-wrap: no-wrap;
 
         --user-info-component-text-align: left;
-        --user-info-component-flex-shrink: 1;
-        --user-info-component-flex-grow: 1;
         --user-info-component-flex-basis: 100%;
         --user-info-component-border-left: 0.5px solid hsl(var(--clr-neutral-400));
 
@@ -198,12 +203,11 @@ body {
     left: 50%;
     transform: translate(-50%, var(--user-info-margin-top));
     z-index: 1;
-    box-shadow: 0 30px 50px -30px hsla(var(--clr-neutral-700), 0.15);
+    box-shadow: 0 50px 50px -30px hsla(var(--clr-neutral-700), 0.1);
     /* for inner contents */
     display: flex;
     flex-wrap: var(--user-info-flex-wrap);
     justify-content: space-between;
-    align-items: flex-start;
     flex-direction: row;
     gap: 2em;
 }
@@ -242,6 +246,25 @@ body {
     height: var(--map-height);
 }
 
+.attribution {
+    font-weight: var(--fw-medium);
+    padding: 2em 5em;
+    background-image: url('images/pattern-bg-desktop.png');
+    background-size: cover;
+    color: hsl(var(--clr-neutral-100));
+    text-align: center;
+}
+
+.attribution a {
+    color: inherit;
+    font-weight: var(--fw-semi-bold);
+}
+
+.attribution :visited {
+    font-weight: var(--fw-medium);
+    text-decoration: dotted;
+}
+
 /* Loading animation */
 .pre-loader--page {
     width: 100%;
@@ -260,7 +283,7 @@ body {
 .pre-loader--page::before {
     content: '';
     display: block;
-    width: 25%;
+    width: min(25%, 15rem);
     aspect-ratio: 1/1;
     border: 8px solid hsl(var(--clr-neutral-200));
     border-right-color: hsl(var(--clr-primary-400));
