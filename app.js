@@ -62,7 +62,7 @@ const getIpGeoData = async (query) => {
     enableContentLoadingSpinner();
     const resolvedQuery = await query;
     const apiServer = 'https://geo.ipify.org/api/v2/country,city';
-    const apiKey = 'at_Kc5uBj4UW4W2O8VW74w4z2mCytjRC';
+    const apiKey = 'at_qwMr73u5xRaIaTjQbY5gzHdKf11Mx';
     let queryType = getQueryType(resolvedQuery);
     const url = `${apiServer}?apiKey=${apiKey}&${queryType}=${resolvedQuery}`;
     try {
@@ -122,7 +122,6 @@ const displayIpMap = (data) => {
         map.setView([lat, lng], defaultZoom);
         L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
             maxZoom: 19,
-            attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
         }).addTo(map);
         let marker = L.marker(
             [lat, lng],
