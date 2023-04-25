@@ -100,20 +100,36 @@ const displayIpData = (data) => {
 };
 
 // initialize leafletjs map container on page load (add DOM element of map)
-let map = L.map('map');
+let map = L.map('map', {
+    zoomControl: false
+});
+
+// setup custom marker icon
+const myCustomMarker = () => {
+    const icon = L.icon( {
+        iconUrl: 'images/icon-location.svg',
+        iconSize: [46, 56]
+    });
+    return icon;
+};
 
 const displayIpMap = (data) => {
     try {
         const lat = data.location.lat;
         const lng = data.location.lng;
-        const defaultZoom = 15;
+        const defaultZoom = 17;
         // update the cordinates of the map
         map.setView([lat, lng], defaultZoom);
         L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
-            maxZoom: 20,
+            maxZoom: 19,
             attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
         }).addTo(map);
-        let marker = L.marker([lat, lng]).addTo(map);
+        let marker = L.marker(
+            [lat, lng],
+            {
+                icon: myCustomMarker()
+            }
+        ).addTo(map);
     } catch (error) {
         alert(error);
         disableContentLoadingSpinner();
