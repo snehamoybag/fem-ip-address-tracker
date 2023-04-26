@@ -41,7 +41,7 @@ const getUserIp = async () => {
         return data.ip;
     }
     catch (error) {
-        alert('Unable to connect to the server. Please check your internet connection');
+        alert('Unable to connect to the server. ' + error);
         pageLoadingSpinner.hide();
     }
 };
